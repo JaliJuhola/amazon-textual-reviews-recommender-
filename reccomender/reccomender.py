@@ -6,6 +6,8 @@ import pandas as pd
 import time
 
 
+
+
 class Reccommender:
 
     @staticmethod
