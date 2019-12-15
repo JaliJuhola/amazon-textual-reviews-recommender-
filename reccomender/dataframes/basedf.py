@@ -24,7 +24,6 @@ class BaseDf:
         df.drop('reviewerName', axis=1, inplace=True)
         df.overall = df.overall.astype('float')
         df = BaseDf.preprocessing_cleaning(df)
-        print(df.head())
         df.to_pickle("reccomender/data/video_game_reviews_base")
         return pd.read_pickle("reccomender/data/video_game_reviews_base")
 
