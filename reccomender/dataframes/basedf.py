@@ -16,7 +16,7 @@ class BaseDf:
     def create_basedf():
         i = 0
         df = {}
-        for d in BaseDf.parse("reccomender/data/reviews_Video_Games.json.gz"):
+        for d in BaseDf.parse("./data/reviews_Video_Games.json.gz"):
             df[i] = d
             i += 1
         df = pd.DataFrame.from_dict(df,  orient='index')
@@ -26,8 +26,8 @@ class BaseDf:
         df.drop('reviewerName', axis=1, inplace=True)
         df.overall = df.overall.astype('float')
         df = BaseDf.preprocessing_cleaning(df)
-        df.to_pickle("reccomender/data/video_game_reviews_base")
-        return pd.read_pickle("reccomender/data/video_game_reviews_base")
+        df.to_pickle("./data/video_game_reviews_base")
+        return pd.read_pickle("./data/video_game_reviews_base")
 
     @staticmethod
     def preprocessing_cleaning(df):
@@ -42,7 +42,7 @@ class BaseDf:
 
     @staticmethod
     def get_basedf(): 
-        return pd.read_pickle("reccomender/data/video_game_reviews_base")
+        return pd.read_pickle("./data/video_game_reviews_base")
 
     @staticmethod
     def get_reviews_by_reviewer_id(reviewer_id):
@@ -51,7 +51,7 @@ class BaseDf:
 
     @staticmethod
     def get_reviews_by_reviewer_id_predict(reviewer_id):
-        base_df = pd.read_pickle("reccomender/data/video_game_reviews_base_predict")
+        base_df = pd.read_pickle("./data/video_game_reviews_base_predict")
         return base_df.query('reviewerID == "{reviewer_id}"'.format(reviewer_id=reviewer_id))
 
     @staticmethod

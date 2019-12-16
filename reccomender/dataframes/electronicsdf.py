@@ -15,7 +15,7 @@ class ElectronicsDF:
     def create_electronicsdf():
         i = 0
         df = {}
-        for d in ElectronicsDF.parse("reccomender/data/reviews_Electronics_5.json.gz"):
+        for d in ElectronicsDF.parse("./data/reviews_Electronics_5.json.gz"):
             df[i] = d
             i += 1
         df = pd.DataFrame.from_dict(df,  orient='index')
@@ -25,8 +25,8 @@ class ElectronicsDF:
         df.drop('reviewerName', axis=1, inplace=True)
         df.overall = df.overall.astype('float')
         df = ElectronicsDF.preprocessing_cleaning(df)
-        df.to_pickle("reccomender/data/electronics_reviews_base")
-        return pd.read_pickle("reccomender/data/electronics_reviews_base")
+        df.to_pickle("./data/electronics_reviews_base")
+        return pd.read_pickle("./data/electronics_reviews_base")
 
     @staticmethod
     def preprocessing_cleaning(df):
@@ -40,7 +40,7 @@ class ElectronicsDF:
 
     @staticmethod
     def get_electronicsdf(): 
-        return pd.read_pickle("reccomender/data/electronics_reviews_base")
+        return pd.read_pickle("./data/electronics_reviews_base")
 
     @staticmethod
     def get_reviews_by_reviewer_id(reviewer_id):

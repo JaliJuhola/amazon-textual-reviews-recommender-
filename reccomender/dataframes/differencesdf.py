@@ -10,10 +10,10 @@ class DifferencesPivot():
         difference_df.review_score = difference_df.review_score.astype('float')
         difference_df.drop('reviewer_mean', axis=1, inplace=True)
         difference_df.difference_to_reviewer_mean = difference_df.difference_to_reviewer_mean.astype('float')
-        difference_df.to_pickle("reccomender/data/video_game_reviews_difference")
+        difference_df.to_pickle("./data/video_game_reviews_difference")
         # Creating pivot
         video_game_differences_pivot = DifferencesPivot.create_pivot_difference(difference_df)
-        video_game_differences_pivot.to_pickle("reccomender/data/video_game_reviews_difference_pivot")
+        video_game_differences_pivot.to_pickle("./data/video_game_reviews_difference_pivot")
         return DifferencesPivot.get_differences_pivot()
 
     @staticmethod
@@ -22,19 +22,19 @@ class DifferencesPivot():
         difference_df.review_score = difference_df.review_score.astype('float')
         difference_df.drop('reviewer_mean', axis=1, inplace=True)
         difference_df.difference_to_reviewer_mean = difference_df.difference_to_reviewer_mean.astype('float')
-        difference_df.to_pickle("reccomender/data/video_game_reviews_difference_predict")
+        difference_df.to_pickle("./data/video_game_reviews_difference_predict")
         # Creating pivot
         video_game_differences_pivot = DifferencesPivot.create_pivot_difference(difference_df)
-        video_game_differences_pivot.to_pickle("reccomender/data/video_game_reviews_difference_pivot_predict")
+        video_game_differences_pivot.to_pickle("./data/video_game_reviews_difference_pivot_predict")
         return DifferencesPivot.get_differences_pivot_predict()
 
     @staticmethod
     def get_differences_df():
-        return pd.read_pickle("reccomender/data/video_game_reviews_difference")
+        return pd.read_pickle("./data/video_game_reviews_difference")
 
     @staticmethod
     def get_differences_df_predict():
-        return pd.read_pickle("reccomender/data/video_game_reviews_difference_predict")
+        return pd.read_pickle("./data/video_game_reviews_difference_predict")
         
     @staticmethod
     def calculate_mean(base_df):
@@ -62,11 +62,11 @@ class DifferencesPivot():
 
     @staticmethod
     def get_differences_pivot(): 
-        return pd.read_pickle("reccomender/data/video_game_reviews_difference_pivot")
+        return pd.read_pickle("./data/video_game_reviews_difference_pivot")
 
     @staticmethod
     def get_differences_pivot_predict(): 
-        return pd.read_pickle("reccomender/data/video_game_reviews_difference_pivot_predict")
+        return pd.read_pickle("./data/video_game_reviews_difference_pivot_predict")
 
     @staticmethod
     def create_pivot_difference(differences_df):

@@ -31,12 +31,12 @@ class ReviewModel:
     def save_prediction_basedf():
         df = BaseDf.get_basedf()
         df['predicted_score'] = ReviewModel.get_prediction_1_2_ngram(df['reviewText'])
-        df.to_pickle("reccomender/data/video_game_reviews_base_predict")
+        df.to_pickle("./data/video_game_reviews_base_predict")
         return df
         
     @staticmethod
     def get_prediction_basedf(): 
-        return pd.read_pickle("reccomender/data/video_game_reviews_base_predict")
+        return pd.read_pickle("./data/video_game_reviews_base_predict")
 
     @staticmethod
     def retrain_1_2_ngram_model():
