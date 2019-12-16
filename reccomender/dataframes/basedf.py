@@ -2,6 +2,7 @@ import gzip
 import pandas as pd
 import matplotlib.pyplot as plt
 import re
+import numpy as np
 
 class BaseDf:
 
@@ -49,19 +50,29 @@ class BaseDf:
         return base_df.query('reviewerID == "{reviewer_id}"'.format(reviewer_id=reviewer_id))
 
     @staticmethod
+    def get_reviews_by_reviewer_id_predict(reviewer_id):
+        base_df = pd.read_pickle("reccomender/data/video_game_reviews_base_predict")
+        return base_df.query('reviewerID == "{reviewer_id}"'.format(reviewer_id=reviewer_id))
+
+    @staticmethod
     def get_reviews_by_product_asin(asin_code, base_df):    
         return base_df.query('asin == "{asin_code}"'.format(asin_code=asin_code))
     @staticmethod
     def get_statistics_about_data():
-        df = BaseDf.getVideoGameBaseDf()
+        df = BaseDf.get_basedf()
         # Crosstab split according to overall score
-        # print(pd.crosstab(index = df['overall'], columns="Total count"))
+        # pd.crosstab(index = df['overall'], columns="Total count")
         # Empty reviews
-        asd = df[df.reviewText.apply(lambda x: len(x)<30)]
-        asd2 = df.reviewText.apply(lambda x: len(x))
-        ct1 = pd.crosstab(index = asd2, columns="Total count")
-        ct = pd.crosstab(index = df['overall'], columns="Total count")
-        df = df.head()
+        #asd = df[df.reviewText.apply(lambda x: len(x)<30)]
+        #asd2 = df.reviewText.apply(lambda x: len(x))
+        #ct1 = pd.crosstab(index =df['overall'], columns="Total count")
+        df['Positively_Rated'] = np.where(df['overall']>3, 1, 0)
+        print(df['Positively_Rated'].value_counts())
+        ct = pd.crosstab(index = df['Positively_Rated'], columns="Total count")
+        ct.plot(kind="bar")
+        plt.show()
+        #ct1.plot()
+        #df = df.head()
         fig, ax = plt.subplots()
         fig.patch.set_visible(False)
         #print(df[df['Positively_Rated'] == 0].iloc[0]['reviewText'])

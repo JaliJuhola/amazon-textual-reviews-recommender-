@@ -42,3 +42,23 @@ class Reccommender:
         n_reccommended_products = scores_by_asin.nlargest(amount, 'weighted_score')
         print("reccomendation took {seconds} seconds".format(seconds=(end-start)))
         return n_reccommended_products.index.tolist()
+
+    @staticmethod        
+    def get_reccomendations_predict(user_id, amount, reviews_by_reviewer_id=pd.DataFrame(), differences_df=pd.DataFrame()):
+        start = time.time()
+        if reviews_by_reviewer_id.empty:
+            reviewed_product_by_user = BaseDf.get_reviews_by_reviewer_id(user_id)['asin'].tolist()
+        else:
+            reviewed_product_by_user = reviews_by_reviewer_id['asin'].tolist()
+        similar_users = Reccommender.get_similar_users(user_id, amount)
+        if differences_df.empty:
+            differences_df = DifferencesPivot.get_differences_df()
+        differences_df = differences_df[~differences_df['asin'].isin(reviewed_product_by_user)]
+        similar_user_reviews = differences_df[differences_df['reviewerID'].isin(similar_users.index.tolist())]
+        similar_user_reviews_with_similarity = similar_user_reviews.merge(similar_users, left_on='reviewerID', right_index=True)
+        similar_user_reviews_with_similarity.rename(columns={ similar_user_reviews_with_similarity.columns[5]: "similarity_score" }, inplace = True)
+        scores_by_asin = Reccommender.get_scores_by_asin(similar_user_reviews_with_similarity)
+        end=time.time()
+        n_reccommended_products = scores_by_asin.nlargest(amount, 'weighted_score')
+        print("reccomendation took {seconds} seconds".format(seconds=(end-start)))
+        return n_reccommended_products.index.tolist()

@@ -10,10 +10,19 @@ from reviewModel import ReviewModel
 def create_dataframes():
     start = time.time()
     baseDF = BaseDf.create_basedf()
-    #differences_pivot = DifferencesPivot.save_differences_pivot(baseDF)
-    #cosine_diffs = CosineDF.save_cosine_differences(differences_pivot)
+    differences_pivot = DifferencesPivot.save_differences_pivot(baseDF)
+    cosine_diffs = CosineDF.save_cosine_differences(differences_pivot)
     end = time.time()
     print("Dataframes created in {seconds} seconds".format(seconds=str(end-start)))
+
+def create_prediction_dataframes():
+    start = time.time()
+    baseDf = ReviewModel.get_prediction_basedf()
+    differences_pivot = DifferencesPivot.save_differences_pivot_predict(baseDf)
+    cosine_diffs = CosineDF.save_cosine_differences_predict(differences_pivot)
+    end = time.time()
+    print("Dataframes created in {seconds} seconds".format(seconds=str(end-start)))
+
 
 def get_reccomendations(user_id, amount):
     return Reccommender.get_reccomendations(user_id,amount)
@@ -40,5 +49,10 @@ def get_prediction_1_3_ngram(reviewText):
 #print(get_reccomendations(user_id,3))
 #print(BaseDf.get_reviews_by_reviewer_id(user_id))
 # retrain_model()
-# retrain_1_4_ngram_model()
-print(get_prediction_1_2_ngram(["When this game was first announced I believe it was going to be a good Assassin's Creed game and when I got it at the midnight launch I played it for 4 days and it was good but the news like IGN thought it was a bad game because of the glitches and the software update to fix the glitches was too much to handle and some Assassin's Creed fans thought it was bad too. After buying Assassin's Creed Unity again but this time on PS4, I thought it was well made game with a bigger map, new weapons, and new people to relate to. I personally didn't have any glitch problems with the game when it first came out. So me personally Assassin's Creed Unity is a good game."]))
+#retrain_1_2_ngram_model()
+# BaseDf.get_statistics_about_data()
+rev_id = "A00263941WP7WCIL7AKWL"
+print(BaseDf.get_reviews_by_reviewer_id(rev_id))
+print(Reccommender.get_reccomendations_predict(rev_id, 10, reviews_by_reviewer_id=BaseDf.get_reviews_by_reviewer_id_predict(rev_id), differences_df=DifferencesPivot.get_differences_df_predict()))
+print(Reccommender.get_reccomendations_predict(rev_id, 10))
+print(get_prediction_1_2_ngram(["good product"]))

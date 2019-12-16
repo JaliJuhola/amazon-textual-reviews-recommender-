@@ -64,4 +64,3 @@ class ElectronicsDF:
         fig, ax = plt.subplots()
         fig.patch.set_visible(False)
         #print(df[df['Positively_Rated'] == 0].iloc[0]['reviewText'])
-
